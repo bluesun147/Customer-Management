@@ -1,6 +1,14 @@
 import React, {Component} from 'react';
 import Customer from './components/Customer';
 import './App.css';
+import { Paper } from '@mui/material';
+import { Table } from '@mui/material'; // material ui 프레임워크. 과거 부트스트랩과 비슷. css 없이.
+import { TableHead } from '@mui/material';
+import { TableBody } from '@mui/material';
+import { TableRow } from '@mui/material';
+import { TableCell } from '@mui/material';
+
+
 
 const customers = [
  {
@@ -31,25 +39,42 @@ const customers = [
 
 class App extends Component {
  render() {
+   const {classes} = this.props;
    return (
-     <div>
-       {
-         customers.map(c => {
-          return (
-          <Customer
-            key = {c.id} // map이용시 key
-            id = {c.id}
-            image = {c.image}
-            name = {c.name}
-            birthday = {c.birthday}
-            gender = {c.gender}
-            job = {c.job} />
-          )
-        })
-       }
-     </div>
+     <Paper>
+       <Table>
+       <TableHead>
+         <TableRow>
+           <TableCell>번호</TableCell>
+           <TableCell>이미지</TableCell>
+           <TableCell>이름</TableCell>
+           <TableCell>생년월일</TableCell>
+           <TableCell>성별</TableCell>
+           <TableCell>직업</TableCell>
+         </TableRow>
+       </TableHead>
+         <TableBody>
+          {
+            customers.map(c => {
+              return (
+              <Customer
+                key = {c.id} // map이용시 key
+                id = {c.id}
+                image = {c.image}
+                name = {c.name}
+                birthday = {c.birthday}
+                gender = {c.gender}
+                job = {c.job} />
+              )
+            })
+          }
+       </TableBody>
+       </Table>
+       
+     </Paper>
    );
  }
 }
 
 export default App;
+//export default withStyles(styles)(App);
