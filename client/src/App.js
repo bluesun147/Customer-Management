@@ -8,8 +8,11 @@ import { TableBody } from '@mui/material';
 import { TableRow } from '@mui/material';
 import { TableCell } from '@mui/material';
 
-
-
+const styles = theme => ({
+  root: {
+    width: '100%'
+  }
+})
 const customers = [
  {
  'id': 1,
