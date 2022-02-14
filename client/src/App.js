@@ -56,9 +56,9 @@ props는 변경될 수 없는 데이터에 사용
     this.timer = setInterval(() => {
       this.setState({progress : this.state.progress >= 100 ? 0 : this.state.progress + 1}); // 100 되는 순간 0으로 줄어들고 그렇지 않으면 1씩 증가
     });
-    //this.callApi() // body변수 받아서 state로 설정
-    //.then(res => this.setState({customers:res})) // then에서 그 이름이 res로 바뀜. 상태변화
-    //.catch(err => console.log(err));
+    this.callApi() // body변수 받아서 state로 설정
+    .then(res => this.setState({customers:res})) // then에서 그 이름이 res로 바뀜. 상태변화
+    .catch(err => console.log(err));
   }
 
 
@@ -116,4 +116,3 @@ props는 변경될 수 없는 데이터에 사용
 }
 
 export default App;
-//export default withStyles(styles)(App);
