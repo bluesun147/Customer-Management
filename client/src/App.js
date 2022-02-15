@@ -88,14 +88,15 @@ class App extends Component {
             <TableCell>생년월일</TableCell>
             <TableCell>성별</TableCell>
             <TableCell>직업</TableCell>
+            <TableCell>설정</TableCell>
           </TableRow>
         </TableHead>
           <TableBody>
             { // 처음 실행시에는 비어있으므로
               this.state.customers ? this.state.customers.map(c => {
                 return (
-                <Customer
-                  key = {c.id} // map이용시 key
+                <Customer stateRefresh = {this.stateRefresh} // 부모에서 자식으로 함수 넘어갈 수 있도록
+                  key = {c.id} // map 이용시 key
                   id = {c.id}
                   image = {c.image}
                   name = {c.name}
