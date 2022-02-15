@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Customer from './components/Customer';
+import CustomerAdd from './components/CustomerAdd';
 import './App.css';
 import { Paper } from '@mui/material';
 import { Table } from '@mui/material'; // material ui 프레임워크. 과거 부트스트랩과 비슷. css 없이.
@@ -75,42 +76,44 @@ props는 변경될 수 없는 데이터에 사용
  render() {
    //const {classes} = this.props;
    return (
-     <Paper>
-       <Table>
-       <TableHead>
-         <TableRow>
-           <TableCell>번호</TableCell>
-           <TableCell>이미지</TableCell>
-           <TableCell>이름</TableCell>
-           <TableCell>생년월일</TableCell>
-           <TableCell>성별</TableCell>
-           <TableCell>직업</TableCell>
-         </TableRow>
-       </TableHead>
-         <TableBody>
-          { // 처음 실행시에는 비어있으므로
-            this.state.customers ? this.state.customers.map(c => {
-              return (
-              <Customer
-                key = {c.id} // map이용시 key
-                id = {c.id}
-                image = {c.image}
-                name = {c.name}
-                birthday = {c.birthday}
-                gender = {c.gender}
-                job = {c.job} />
-              )
-            }) : 
-            <TableRow>
-              <TableCell colSpan="6" align='center'>
-                <CircularProgress/>
-              </TableCell>
-            </TableRow>
-          }
-       </TableBody>
-       </Table>
-       
-     </Paper>
+     <div>
+      <Paper>
+        <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>번호</TableCell>
+            <TableCell>이미지</TableCell>
+            <TableCell>이름</TableCell>
+            <TableCell>생년월일</TableCell>
+            <TableCell>성별</TableCell>
+            <TableCell>직업</TableCell>
+          </TableRow>
+        </TableHead>
+          <TableBody>
+            { // 처음 실행시에는 비어있으므로
+              this.state.customers ? this.state.customers.map(c => {
+                return (
+                <Customer
+                  key = {c.id} // map이용시 key
+                  id = {c.id}
+                  image = {c.image}
+                  name = {c.name}
+                  birthday = {c.birthday}
+                  gender = {c.gender}
+                  job = {c.job} />
+                )
+              }) : 
+              <TableRow>
+                <TableCell colSpan="6" align='center'>
+                  <CircularProgress/>
+                </TableCell>
+              </TableRow>
+            }
+        </TableBody>
+        </Table>
+      </Paper>
+      <CustomerAdd/>
+     </div>
    );
  }
 }
