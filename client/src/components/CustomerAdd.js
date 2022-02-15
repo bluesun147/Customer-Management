@@ -20,6 +20,11 @@ class CustomerAdd extends React.Component {
         this.addCustomer()
         .then((response) => {
             console.log(response.data);
+            // 고객 목록 데이터 불러오는 과정은 비동기적으로 실행됨 => 
+            // 고객 데이터 추가한 이후에 고객 목록 불러오는것 순서 보장 못함.
+            // 고객을 추가한 '이후에' 서버로부터 응답 받고 비로소 고객 목록 불러오도록 설정해야 함
+            // 응답 받고 나서 refresh 하도록.
+            this.props.stateRefresh(); // 전체 페이지 새로고침 없이 고객 목록만.
         })
         this.setState({
             file: null,
@@ -29,7 +34,6 @@ class CustomerAdd extends React.Component {
             job: '',
             fileName: ''
         })
-        window.location.reload(); // 새로고침
     }
 
     handleFileChange = (e) => { // 파일값 변경시 불러올 메서드
