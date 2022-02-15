@@ -28,15 +28,24 @@ const styles = theme => ({ // 안됨
 */
 
 class App extends Component {
-/* 고객 정보를 서버에 접속해 가져오자.
-고객 정보는 프로그램 동작 과정중에서 변경될수있는 데이터.
-=> state
-props는 변경될 수 없는 데이터에 사용
-*/
-  state = { // 컴포 내에서 변경될수 있는 변수 -> state
-    customers: "",
-    completed: 0,
-    progress: 0
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: '',
+      completed: 0
+    }
+  }
+  // 전체 페이지 새로고침 없이 고객 목록만.
+  stateRefresh = () => { // state 초기화
+    this.setState({
+      customers: '',
+      completed: 0
+    });
+    // 고객 목록 새롭게 다시 불러옴
+    this.callApi()
+    .then(res => this.setState({customers:res}))
+    .catch(err => console.log(err));
   }
 
   /*progress = () => {
@@ -45,14 +54,6 @@ props는 변경될 수 없는 데이터에 사용
   }*/
 
   // 여기서 api 비동기적 호출
-  /*componentDidMount() { // 모든 컴포넌트 마운트 완료 되었을 때 실행
-    this.timer = setInterval(this.progress, 20);
-    this.callApi() // body변수 받아서 state로 설정
-    .then(res => this.setState({customers:res})) // then에서 그 이름이 res로 바뀜. 상태변화
-    .catch(err => console.log(err));
-  }*/
-
-
   componentDidMount() { // 모든 컴포넌트 마운트 완료 되었을 때 실행
     this.timer = setInterval(() => {
       this.setState({progress : this.state.progress >= 100 ? 0 : this.state.progress + 1}); // 100 되는 순간 0으로 줄어들고 그렇지 않으면 1씩 증가
@@ -112,7 +113,7 @@ props는 변경될 수 없는 데이터에 사용
         </TableBody>
         </Table>
       </Paper>
-      <CustomerAdd/>
+      <CustomerAdd stateRefresh = {this.stateRefresh}/> {/* props 값으로 stateRefresh. 함수 자체를 props로 보냄 */}
      </div>
    );
  }
