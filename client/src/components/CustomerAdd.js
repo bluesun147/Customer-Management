@@ -1,6 +1,27 @@
 // 고객 추가
 import React from "react";
 import {post} from 'axios'; // 서버와의 통신 목적 라이브러리. post 방식으로 고객 추가 데이터를 서버로 보낼수 있도록
+import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
+import { withStyles } from "@mui/material";
+
+const styles = theme => ({
+    hidden: {
+        display: 'none'
+    }
+});/*
+            <form onSubmit={this.handleFormSubmit} >
+                <h1>고객 추가</h1> */
+                {/* 실제로 서버로 데이터가 전달될때는 name속성 값 기준으로. */}
+                /*프로필 이미지: <input type = "file" name = "file" file = {this.state.file} value = {this.state.fileName} onChange = {this.handleFileChange} /><br/>
+                이름: <input type = "text" name = "userName" value = {this.state.userName} onChange = {this.handleValueChange} /><br/>
+                생년월일: <input type = "text" name = "birthday" value = {this.state.birthday} onChange = {this.handleValueChange} /><br/>
+                성별: <input type = "text" name = "gender" value = {this.state.gender} onChange = {this.handleValueChange} /><br/>
+                직업: <input type = "text" name = "job" value = {this.state.job} onChange = {this.handleValueChange} /><br/>
+                <button type = "submit">추가하기</button>
+            </form>
+            */
 
 class CustomerAdd extends React.Component {
     constructor(props) {
@@ -11,7 +32,8 @@ class CustomerAdd extends React.Component {
             birthday: '',
             gender: '',
             job: '',
-            fileName: ''
+            fileName: '',
+            open: false // 현재 다이얼로그 열려있는지 체크 
         }
     }
 
@@ -32,7 +54,8 @@ class CustomerAdd extends React.Component {
             birthday: '',
             gender: '',
             job: '',
-            fileName: ''
+            fileName: '',
+            open: false // 추가버튼 누르면 자동을 모달창 닫아짐
         })
     }
 
@@ -66,19 +89,55 @@ class CustomerAdd extends React.Component {
         return post(url, formData, config); // axios
     }
 
-    render() {
-        return( // 
-            <form onSubmit={this.handleFormSubmit} >
-                <h1>고객 추가</h1>
-                {/* 실제로 서버로 데이터가 전달될때는 name속성 값 기준으로. */}
-                프로필 이미지: <input type = "file" name = "file" file = {this.state.file} value = {this.state.fileName} onChange = {this.handleFileChange} /><br/>
-                이름: <input type = "text" name = "userName" value = {this.state.userName} onChange = {this.handleValueChange} /><br/>
-                생년월일: <input type = "text" name = "birthday" value = {this.state.birthday} onChange = {this.handleValueChange} /><br/>
-                성별: <input type = "text" name = "gender" value = {this.state.gender} onChange = {this.handleValueChange} /><br/>
-                직업: <input type = "text" name = "job" value = {this.state.job} onChange = {this.handleValueChange} /><br/>
-                <button type = "submit">추가하기</button>
-            </form>
+    handleClickOpen = () => { // 사용자가 고객 추가버튼 눌러서 고객 추가 모달 창 뜨도록
+        this.setState({
+            open: true
+        });
+    }
 
+    handleClose = () => { // 닫기 창 눌렀다면
+        this.setState({
+            file: null,
+            userName: '',
+            birthday: '',
+            gender: '',
+            job: '',
+            fileName: '',
+            open: false
+        })
+    }
+
+    render() {
+
+        const { classes } = this.props;
+
+        return(
+            <div>
+                <Button variant = "contained" color = "primary" onClick={this.handleClickOpen}>
+                    고객 추가하기
+                </Button>
+                <Dialog open = {this.state.open} onClose = {this.handleClose}> 
+                    <DialogTitle>고객 추가</DialogTitle>
+                    <DialogContent>
+                        <input className = {classes} accept = "image/*" id = "raised-button-file" type = "file" file = {this.state.file} value = {this.state.fileName} onChange = {this.handleFileChange} /><br/>
+                        <label htmlFor = "raised-button-file">
+                            <Button variant = "contained" color = 'primary' component = 'span' name = 'file'>
+                                {this.state.fileName === '' ? "프로필 이미지 선택" : this.state.fileName}
+                            </Button>
+                        </label>
+                        <br/>
+                        <TextField label = "이름" type = "text" name = "userName" value = {this.state.userName} onChange = {this.handleValueChange} /><br/>
+                        <TextField label = "생년월일" type = "text" name = "birthday" value = {this.state.birthday} onChange = {this.handleValueChange} /><br/>
+                        <TextField label = "성별" type = "text" name = "gender" value = {this.state.gender} onChange = {this.handleValueChange} /><br/>
+                        <TextField label = "직업" type = "text" name = "job" value = {this.state.job} onChange = {this.handleValueChange} /><br/>
+                    </DialogContent>
+
+                    <DialogActions>
+                        <Button variant = "contained" color = 'primary' onClick={this.handleFormSubmit}>추가</Button>
+                        <Button variant = "outlined" color = 'primary' onClick={this.handleClose}>닫기</Button>
+                    </DialogActions>
+                </Dialog>
+            </div>
         )
     }
 }
